@@ -1923,3 +1923,105 @@ stage('Deploy to tomcat server'){
 
 }
 }
+
+
+02/04/2025::
+=============
+
+SonarQube::
+
+![image](https://github.com/user-attachments/assets/f248e676-0498-4286-b7b0-43f78bddabd2)
+
+
+To integrate SonarQube with Jenkins, you need to ensure that Jenkins can communicate with your SonarQube server to perform static code analysis during your CI/CD pipeline. This will allow you to analyze your code quality and get reports from SonarQube as part of your build process.
+
+Here's how you can integrate SonarQube with Jenkins:please follow below steps
+
+1. Install the SonarQube Plugin in Jenkins
+Before you start, ensure that you have the SonarQube Scanner Plugin installed in Jenkins:
+
+Go to Jenkins Dashboard.
+Click on Manage Jenkins → Plugins.
+Go to the Available tab, and search for SonarQube Scanner.
+Install it and restart Jenkins.
+
+2. Configure SonarQube in Jenkins
+Next, you need to configure SonarQube on Jenkins so it can communicate with your SonarQube server.
+
+Steps:
+=====
+Go to Jenkins Dashboard.
+Click on Manage Jenkins → Configure System.
+Scroll down to the SonarQube servers section and click Add SonarQube.
+
+Fill in the following details:
+=======================
+Name::: Give your SonarQube instance a name (SonarQubeServer).
+Server URL: URL to your SonarQube instance (e.g., http://localhost:9000). and default port is 9000
+Server Authentication Token: You can generate a token in SonarQube by navigating to My Account → Security → Generate Tokens. Paste this token into Jenkins.
+Click Save.
+
+3. Configure the SonarQube Scanner in JenkinsSteps:
+ ===============================================
+In the Configure System page, scroll to the SonarQube Scanner section.
+Click Add SonarQube Scanner and select SonarQube Scanner for Jenkins.
+
+If you want to use a custom installation, specify the path to the SonarQube Scanner binary.
+Click Save.
+
+ Configure SonarQube Project::
+ ========================
+Go to your SonarQube server (e.g., http://localhost:9000).
+Create a project or use an existing one.
+Obtain the Project Key from the SonarQube project and update the pipeline script as shown in the sonar.projectKey parameter.
+
+Go to Projects and click Local project
+
+![image](https://github.com/user-attachments/assets/0b177021-0fc2-4ba4-a987-fee4a3420717)
+
+Click Next
+
+![image](https://github.com/user-attachments/assets/2cccbec2-463b-47ab-9379-f02244272f3a)
+
+Selected Use the global setting
+
+![image](https://github.com/user-attachments/assets/702766f0-01a9-4919-bbda-acb3a8996dcd)
+
+Click Create Project
+
+![image](https://github.com/user-attachments/assets/a614a64f-7171-43c3-b19e-787e13ee0c16)
+
+Now Spring-petclinic Project created in Sonarqube
+
+![image](https://github.com/user-attachments/assets/0f79347c-8bde-4fa3-8eaa-3ca91a27422d)
+
+Click Locally
+
+![image](https://github.com/user-attachments/assets/d6e4fa35-299c-4768-b291-c669d9b52995)
+
+![image](https://github.com/user-attachments/assets/ba49dbeb-8f7f-4fb4-ab7d-8c4d3644a133)
+
+Click Generate for Token
+
+Analyze "spring-petclinic12": sqp_0eb364758c5186bea4077eff841ddb99ba89a3ab
+
+
+![image](https://github.com/user-attachments/assets/7e46dded-06da-467a-8838-62e9f0337a7a)
+
+Click Continue
+
+![image](https://github.com/user-attachments/assets/590c723c-0df3-48df-bf7d-77575e63614a)
+
+![image](https://github.com/user-attachments/assets/ace61156-d25b-4d00-b248-d5bd0b1de835)
+
+Selected Maven and copy below script from sonarqube and it will help to integrate Sonarqube with jenkins pipeline
+
+![image](https://github.com/user-attachments/assets/1da2fbb2-5118-45e5-85ec-c7767a44529b)
+
+
+mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=spring-petclinic12 \
+  -Dsonar.projectName='spring-petclinic12' \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.token=sqp_0eb364758c5186bea4077eff841ddb99ba89a3ab
+
