@@ -2248,3 +2248,120 @@ Bugs
 Vulnerabilities
 Duplications
 These reports will be available in the SonarQube dashboard for your project.
+
+
+
+04/04/2025::
+================
+
+Integrate Jenkins with Sonarqube using Declarative Approach and Pipeline as a Code::
+=================================================================
+
+first we need to create New Pipeline job in Jenkins
+
+Click New Item
+
+![image](https://github.com/user-attachments/assets/f60c08d2-280d-4f33-969f-01de79fd997f)
+
+Enter Project Name and selected Pipeline
+
+![image](https://github.com/user-attachments/assets/1ea984c9-db37-486a-b1b9-8928ba11fcc5)
+
+select Pipeline Definition, Pipeline Script from SCM
+
+![image](https://github.com/user-attachments/assets/2f862bec-472e-4896-8f7a-02d850f54063)
+
+
+![image](https://github.com/user-attachments/assets/860034d7-dc7e-4562-94d6-99817365057d)
+
+Provided github project url
+
+https://github.com/jaiswaladi246/Petclinic.git
+
+
+![image](https://github.com/user-attachments/assets/dcd4d9b5-5817-4312-851f-ea66d145770e)
+
+
+select Branches to build
+
+![image](https://github.com/user-attachments/assets/329d88b8-3339-4cea-a7a9-0abc9731aad1)
+
+select Script Path   ---Jenkinsfile
+
+![image](https://github.com/user-attachments/assets/2797d4df-399d-4301-aa92-015df2a47c9f)
+
+![image](https://github.com/user-attachments/assets/04a190d3-de5a-4203-a6cf-bba38c83f920)
+
+Jenkinsfile Script CI/CD:: please try to execute below script from source code
+=======================
+
+pipeline{
+
+    agent any
+    
+    tools {
+	    maven "Maven"
+        
+	 	}
+
+
+    stages{
+
+       stage('clone the project'){
+        steps{
+            
+           git branch: 'main', url: 'https://github.com/jaiswaladi246/Petclinic.git'
+          
+        }
+
+       }
+
+       stage('Build the project'){
+        steps{
+           sh 'mvn clean install'
+        }
+
+       }
+
+       stage('Test'){
+        steps{
+           sh 'mvn test'
+        }
+
+       }
+       stage('published the test results'){
+        steps{
+           junit 'target/surefire-reports/*.xml'
+        }
+
+       }
+       stage('publishedd the artifacts'){
+        steps{
+           archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+        }
+
+       }
+
+     stage('Sonarqube Analysis'){
+        steps{
+           sh "mvn clean verify sonar:sonar \
+         -Dsonar.projectKey='spring-petclinic' \
+         -Dsonar.projectName='spring-petclinic' \
+         -Dsonar.host.url='http://localhost:9000' \
+         -Dsonar.token=sqp_b678f83ca558a3bb7735efadfdbd4697adbebc28"
+        }
+
+       }
+    
+
+       stage('Deploy to Tomcat Server'){
+        steps{
+           deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://localhost:8080/')], contextPath: 'Ifocus Solutions Pvt Limited', war: 'target/*.war'
+        }
+
+       }
+
+
+    }
+}
+
