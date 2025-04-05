@@ -2251,6 +2251,9 @@ These reports will be available in the SonarQube dashboard for your project.
 
 
 
+
+
+
 04/04/2025::
 ================
 
@@ -2364,4 +2367,10 @@ pipeline{
 
     }
 }
+
+
+Expected pipeline Executed Screenshot
+
+
+![image](https://github.com/user-attachments/assets/b5a16848-51ba-48c1-ac0b-d4365687fdfa)
 
