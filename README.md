@@ -2374,3 +2374,65 @@ Expected pipeline Executed Screenshot
 
 ![image](https://github.com/user-attachments/assets/b5a16848-51ba-48c1-ac0b-d4365687fdfa)
 
+
+
+07/04/2025::
+===================
+
+
+Jfrog Artifactory Overview::
+======================
+
+
+![image](https://github.com/user-attachments/assets/92d45754-5028-4225-ac24-1c40f1563995)
+
+
+
+JFrog Artifactory is a universal artifact repository manager that serves as a central hub for storing, managing, and distributing software artifacts, binaries, packages, and other assets throughout the software development lifecycle, improving automation, and ensuring release integrity.
+
+Artifact Repository Management:
+
+Allows for storing binaries and artifacts (e.g., libraries, packages, Docker images) in a centralized location.
+Supports all major package types (e.g., Maven, Gradle, npm, NuGet, RubyGems, etc.).
+Version Control:
+
+Helps in managing versions of your artifacts and ensures the correct version is used during builds and deployments.
+Integration with CI/CD:
+
+Integrates seamlessly with CI/CD tools like Jenkins, Bamboo, GitLab CI, and others.
+Enables automated publishing of artifacts as part of your continuous integration pipeline.
+Access Control & Security:
+
+Provides fine-grained access control and permissions for users and groups.
+Supports user authentication, security, and audit trails to ensure compliance and secure artifact management.
+Replication:
+
+Allows you to replicate artifacts across multiple Artifactory instances, ensuring high availability and disaster recovery capabilities.
+Remote Repositories:
+
+Artifactory can proxy remote repositories, allowing you to cache and fetch external dependencies without re-downloading them each time.
+Promotion & Release Management:
+
+You can "promote" artifacts from one repository to another (e.g., from a development repository to a production repository), allowing for better control over releases.
+Multi-Platform Support:
+
+Artifactory supports multiple programming languages and platforms, making it a universal solution for managing software dependencies and releases.
+
+
+Download Jfrog from google for windows::
+====================================
+
+First Step:: 
+https://jfrog.com/download-jfrog-platform/  ---download url
+
+![image](https://github.com/user-attachments/assets/6ef7f0ee-d89e-4c84-8764-17bcde0c18b3)
+
+previous versions link
+
+https://jfrog.com/download-legacy/?product=artifactory&version=7.104.12
+
+All zip version and search 6.12.1 OSS version
+
+https://releases.jfrog.io/artifactory/bintray-artifactory/
+
+
