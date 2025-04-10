@@ -2778,3 +2778,95 @@ instance will be created
 
 ![image](https://github.com/user-attachments/assets/38ccd3b2-71ce-4102-a047-db937ab13080)
 
+
+
+
+10/04/2025::
+=================
+
+
+Master & Node communication Via SSH keys::
+================================
+
+Jenkins manage builds across multiple machines, SSH is one of the cleanest and most common ways to connect your Jenkins master to agent nodes.
+
+![image](https://github.com/user-attachments/assets/194a27b6-2cdf-4d91-aebf-d43d9daf68e5)
+
+
+i have to create 2 EC2 ubuntu machines in AWS
+1. Jenkinsmaster
+2. Node
+
+![image](https://github.com/user-attachments/assets/9fb55c6b-b0b5-4308-8061-91a23184b6db)
+
+
+we have already .pem file dowloaded in you local machin
+
+right click from .pem and click Open git bash here option
+Now Go to AWS Ubuntu machine which is already created in AWS insatnces and select master machine
+
+![image](https://github.com/user-attachments/assets/ae110666-3e1d-4a48-bfb4-ecb3790187f8)
+
+Click Connect
+
+![image](https://github.com/user-attachments/assets/4130c330-b01d-4a7c-b820-7b836db556b9)
+
+Click SSH Client
+
+![image](https://github.com/user-attachments/assets/fb0dfc0d-abbe-427c-a79b-a10df2f2410c)
+
+Copy URL
+
+>ssh -i "Newkeysmasternode.pem" ubuntu@ec2-18-237-178-192.us-west-2.compute.amazonaws.com
+
+![image](https://github.com/user-attachments/assets/a0bf53d1-3b1a-42a0-8c40-8cb39f85cd09)
+
+Now past that url in Gitbash
+
+![image](https://github.com/user-attachments/assets/e52355e5-73b3-4d7b-9e04-3ce8cd72ffe5)
+
+switch to root user below command run
+>Sudo -i
+
+![image](https://github.com/user-attachments/assets/98086ebc-bbd6-4757-ac12-923a2a6eb896)
+
+update the all packages ,please run below command
+
+>sudo apt-get update
+
+![image](https://github.com/user-attachments/assets/3b291e76-4a2a-4d5a-bbd2-58231282e4b7)
+
+Install JDK & Maven:;
+============
+
+JDK link
+
+https://bluevps.com/blog/how-to-install-java-on-ubuntu
+
+MAven link
+
+https://phoenixnap.com/kb/install-maven-on-ubuntu
+
+
+
+>sudo apt-get install maven
+>java -version
+>mvn -v
+
+Set java home environment 
+
+>sudo vi /etc/environment
+JAVA_HOME=”/usr/lib/jvm/java-8-openjdk-amd64/jre”
+MAVEN_HOME=”/usr/share/maven”
+
+Reload your system environment
+>source /etc/environment
+
+Veriy the variables was set correctly
+>echo $JAVA_HOME
+>echo $MAVEN_HOME
+
+Insatll Jenkins on master machine
+
+https://phoenixnap.com/kb/install-jenkins-ubuntu
+
