@@ -2870,3 +2870,130 @@ Insatll Jenkins on master machine
 
 https://phoenixnap.com/kb/install-jenkins-ubuntu
 
+
+
+11/04/2025::
+=================
+
+
+AWS any machines default password authentication is disabled , 
+we need to enabled in any linux machines
+>sudo vi /etc/ssh/sshd_config
+>sudo service sshd restart
+In EC2 – by default password based authentication is disabled so we need to enabled
+>vi /etc/ssh/sshd_config
+passwordauthentication :yes
+
+![image](https://github.com/user-attachments/assets/99decb00-3ef0-4528-8e58-0d69bf14ce36)
+
+In ubuntu machine default user is not sudo user,
+>visudo
+Jenkins ALL=(ALL:ALL) NOPASSWD:ALL
+>su Jenkins
+Switching to new user
+
+![image](https://github.com/user-attachments/assets/86bc74b0-e31f-44aa-bcab-875ed9a3a016)
+
+![image](https://github.com/user-attachments/assets/98b96a48-2ee3-466c-b917-26c1919b15f6)
+
+Once installed Jenkins successfully
+>we need to enabled the Inbounds and outbounds rules in AWS security groups
+
+Inbounds rules
+
+![image](https://github.com/user-attachments/assets/b7075d75-dd60-42d4-a282-7be861252685)
+
+Copy public IP address and go to browser
+Access Jenkins using Public IP address
+http://35.86.160.156:8080/
+
+bydefault Jenkins runs on port 8080
+Jenkins home path/var/lib/Jenkins
+How to change the port number in Jenkins::
+https://stackoverflow.com/questions/28340877/how-to-change-port-number-for-jenkins-installation-in-ubuntu-12-04
+>sudo nano /etc/default/jenkins
+
+
+Now Go to Node Machine::
+==============
+Please insatll JDK & Maven in node machine and setup environemnt varibles
+
+>sudo apt-get install maven
+>java -version
+>mvn -v
+Set java home environment 
+
+>sudo vi /etc/environment
+JAVA_HOME=”/usr/lib/jvm/java-8-openjdk-amd64/jre”
+MAVEN_HOME=”/usr/share/maven”
+
+Reload your system environment
+>source /etc/environment
+
+Veriy the variables was set correctly
+>echo $JAVA_HOME
+>echo $MAVEN_HOME
+
+comminicate master & node via SSH keys
+>ssh-keygen
+after generated copy public key to node machine
+
+option-1 to copy keys from master to node
+>ssh-copy-id user@ipaddressofnodemachine
+>ssh-copy-id node@172.31.44.169
+
+2nd option --copy keys manually from master to node
+
+3rd options --i have created authorized_keys  file in node machine and copy public key from master to node
+
+NOTE:: Important points::
+=================
+
+in Jenkins master ---jenkins user as a sudo permission
+                  ---default user is not a sudo user
+                  ---passwordauthentication is disabaed in AWS machines , you should make enabled 
+
+                     PaawordAuthentication :yes
+                  ---ssh-keygen		or ssh-keygen -t ed25519	
+
+NOde Machine---make you should create new user	-like node
+           >adduser node
+           ---make sure you should provide the sudo permission for that new user---node
+        >visudo
+      node ALL=(ALL:ALL) NOPASWD:ALL
+     
+master node communicatuion via SSH keys::
+
+----	 	copy public key from master to node machine
+ >ssh-copy-id user@privateipaddresofnode machine
+  if keys are copied properly from master to node, communication happned from master machine
+  
+  >ssh user@ipdaadres of node
+  >ssh node@172.31.31.42
+
+
+Master Node Configuration::
+=========================
+>got to manage Jenkins
+>manage Nodes
+
+>click new node
+Remote root directory
+
+![image](https://github.com/user-attachments/assets/774c7270-0607-4332-8679-ebad4a459979)
+
+![image](https://github.com/user-attachments/assets/55da9a7b-3178-47cf-be6d-72b452a59b2d)
+
+Launch methods via ssh
+
+![image](https://github.com/user-attachments/assets/aa7e51ac-278f-473c-9512-bfb35422fea8)
+
+
+Add credentials
+
+![image](https://github.com/user-attachments/assets/2a3ae243-9a58-4666-bacd-317298d68f33)
+
+>Host Key Verification Strategy
+![image](https://github.com/user-attachments/assets/a926aed1-85d6-42e1-804f-da5df9792eed)
+
+
