@@ -3090,3 +3090,11 @@ Task: A task is an individual unit of work. Tasks define specific actions, such 
 Inventory: An inventory is a list of hosts that Ansible will manage. The inventory file defines which machines to target. An inventory can group hosts together (e.g., web servers, db servers) for easy management.
 
 Modules: Ansible provides numerous modules that are responsible for performing specific tasks like managing packages, services, files, etc. Common modules include apt, yum, service, copy, and file.
+
+
+
+Create 3 AWS ubuntu machines::
+
+1. ACS --ansible control serverless
+2.node1
+3.node2
