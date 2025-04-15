@@ -3098,3 +3098,174 @@ Create 3 AWS ubuntu machines::
 1. ACS --ansible control serverless
 2.node1
 3.node2
+
+
+16/04/2025::
+==============
+
+all these 3 machine ping to each other and see beow screenshots all 3 machines pings each other
+
+![image](https://github.com/user-attachments/assets/08def171-c690-4c4c-8f93-17bdf9734c73)
+
+
+Steps::
+======
+ubuntu@ip-172-31-28-207:~$ sudo -i
+root@ip-172-31-28-207:~# su ansible
+ansible@ip-172-31-28-207:/root$ cd ~
+ansible@ip-172-31-28-207:~$ cd /etc/ansible/
+ansible@ip-172-31-28-207:/etc/ansible$ ansible -m ping all
+[WARNING]: Platform linux on host localhost is using the discovered Python interpreter at /usr/bin/python3.12, but future installation of
+another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.17/reference_appendices/interpreter_discovery.html for more information.
+localhost | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.12"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+[WARNING]: Platform linux on host ansiblenode2@172.31.30.200 is using the discovered Python interpreter at /usr/bin/python3.12, but future
+installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.17/reference_appendices/interpreter_discovery.html for more information.
+ansiblenode2@172.31.30.200 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.12"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+[WARNING]: Platform linux on host ansiblenode1@172.31.20.135 is using the discovered Python interpreter at /usr/bin/python3.12, but future
+installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible-
+core/2.17/reference_appendices/interpreter_discovery.html for more information.
+ansiblenode1@172.31.20.135 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3.12"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+ansible@ip-172-31-28-207:/etc/ansible$
+
+
+
+Ansible Playbooks Introduction::
+==========================
+
+Ansible playbooks are the heart of automation with Ansible. They are simple YAML (Yet Another Markup Language) files that define automation tasks in a structured, human-readable format. Playbooks allow you to automate configurations, deployments, and orchestration tasks in a clear and organized way.
+
+Key Concepts::
+==============
+
+Playbook: A playbook is a file that contains one or more "plays." Each play defines a set of tasks to be executed on a group of hosts. The playbook can be used for things like installing packages, managing users, configuring services, etc.
+
+Task: A task is an individual unit of work. Tasks define specific actions, such as installing a package, starting a service, or copying a file. Tasks are executed sequentially, in the order in which they are written in the playbook.
+
+Inventory: An inventory is a list of hosts that Ansible will manage. The inventory file defines which machines to target. An inventory can group hosts together (e.g., web servers, db servers) for easy management.
+
+Modules: Ansible provides numerous modules that are responsible for performing specific tasks like managing packages, services, files, etc. Common modules include apt, yum, service, copy, and file.
+
+
+Structure of a Basic Playbook:
+===============================
+A basic playbook has the following components:
+
+YAML Header: The file begins with a --- to indicate it’s a YAML file.
+
+ the hosts (target machines)
+ become: yes   ----->Sudo user 
+
+Tasks: Tasks define the actions to be executed on the target systems.
+
+![image](https://github.com/user-attachments/assets/71982463-6b41-4481-af94-29c76690b0b6)
+
+I want to see where the Ansible is installed on ACS
+>cd /etc/ansible
+
+NOTE::
+==========
+Playbook is written in YAML format
+Inside the playbook tasks
+Each task is a module
+Playbook is a one of yaml file
+Yaml file is a collection of key-value pairsset of all tasks
+Playbook is tell to the ansible what are the tasks can be performed
+Each task  one module
+Module is a smallest item of ansible
+Module can be used to individual or smallest task can be performed
+Any configuration management tool should maintain ‘state’
+
+
+hosts: all (apply all we can be mentioned in inventory )
+become: yes  (become user as a sudo user)
+tasks:
+
+we can search in google ansible playbook
+https://docs.ansible.com/ansible/latest/user_guide/playbooks.html
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html#basics
+
+
+install git example playbook::
+============================== 
+
+installgit.yml
+---
+- hosts: all
+
+  become: yes
+  
+  tasks:
+  
+  -  name: install git
+    
+     apt:
+     
+       name: git
+     
+       state: present
+     
+       update_cache: yes
+
+     
+note:::default state is present 
+update_cache: yes tells Ansible to run the apt-get update command on the remote machine before performing any further package operations (like installing or upgrading packages).
+become: yes  # Elevate privileges to execute tasks as root
+
+
+
+ansible@ip-172-31-19-120:/etc/ansible$ ansible-playbook installgit.yml
+
+PLAY [all] **********************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+[WARNING]: Platform linux on host localhost is using the discovered Python interpreter at
+/usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of
+that path. See https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [localhost]
+[WARNING]: Platform linux on host node2@172.31.30.90 is using the discovered Python interpreter at
+/usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of
+that path. See https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [node2@172.31.30.90]
+[WARNING]: Platform linux on host node1@172.31.30.121 is using the discovered Python interpreter at
+/usr/bin/python3.12, but future installation of another Python interpreter could change the meaning of
+that path. See https://docs.ansible.com/ansible-
+core/2.18/reference_appendices/interpreter_discovery.html for more information.
+ok: [node1@172.31.30.121]
+
+TASK [install git] **************************************************************************************
+ok: [node2@172.31.30.90]
+ok: [node1@172.31.30.121]
+ok: [localhost]
+
+PLAY RECAP **********************************************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+node1@172.31.30.121        : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+node2@172.31.30.90         : ok=2    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+ansible@ip-172-31-19-120:/etc/ansible$ git --version
+git version 2.43.0
+ansible@ip-172-31-19-120:/etc/ansible$ Read from remote host ec2-34-226-192-28.compute-1.amazonaws.com: Connection reset by peer
+Connection to ec2-34-226-192-28.compute-1.amazonaws.com closed.
+client_loop: send disconnect: Connection reset by peer
