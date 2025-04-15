@@ -3068,3 +3068,25 @@ advantage of master & Node Integartion
 
 
 
+14/04/2025::
+================
+
+Ansible Playbooks Introduction::
+==========================
+
+Ansible playbooks are the heart of automation with Ansible. They are simple YAML (Yet Another Markup Language) files that define automation tasks in a structured, human-readable format. Playbooks allow you to automate configurations, deployments, and orchestration tasks in a clear and organized way.
+
+
+![image](https://github.com/user-attachments/assets/0eccfdcf-7be4-4615-a010-b4a2522dc35d)
+
+
+Key Concepts::
+==============
+
+Playbook: A playbook is a file that contains one or more "plays." Each play defines a set of tasks to be executed on a group of hosts. The playbook can be used for things like installing packages, managing users, configuring services, etc.
+
+Task: A task is an individual unit of work. Tasks define specific actions, such as installing a package, starting a service, or copying a file. Tasks are executed sequentially, in the order in which they are written in the playbook.
+
+Inventory: An inventory is a list of hosts that Ansible will manage. The inventory file defines which machines to target. An inventory can group hosts together (e.g., web servers, db servers) for easy management.
+
+Modules: Ansible provides numerous modules that are responsible for performing specific tasks like managing packages, services, files, etc. Common modules include apt, yum, service, copy, and file.
