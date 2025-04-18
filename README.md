@@ -3965,3 +3965,212 @@ When condition is always used bottom of the script and using scrips we can able 
     when: ansible_os_family == "Redhat"
 
 
+
+
+18/04/2025::
+==============
+
+
+
+In Ansible, variables are used to store values that can be referenced and used throughout your playbooks, roles, and tasks. This allows for dynamic, reusable, and flexible automation. Here’s a basic breakdown of how Ansible variables work and the different ways you can define and use them:
+
+
+define variables in 3 places
+1.	Inventory level  lowest priority
+2.	Playbook level 
+3.	Command line level –highest level priority
+
+
+Inventory variables: These are defined in the inventory file (or dynamic inventory) for specific hosts or groups.
+
+[webservers]
+ansiblenode1@172.31.20.135  package_name=git
+ansiblenode2@172.31.30.200 package_name=apache2
+localhost 
+
+[webservers:vars]
+ansiblenode2@172.31.30.200 
+localhost 
+
+package_name=httpd
+
+Playbook variables: You can define variables directly within your playbooks using the vars section.
+
+---
+- hosts: Webservers
+
+  become: yes
+
+  vars:
+
+  pacakge_name: git
+
+  tasks:
+    
+    - name: Install all packages
+
+      apt:
+
+      name: "{{ pacakge_name }}"
+
+      state: present
+
+      Command-line variables: You can pass variables to your playbooks at runtime using the -e or --extra-vars option.
+      
+
+      >ansible-playbook -i hosts -e "package_name=apache2" variables2.yml
+
+
+
+Ansible resolves variable values based on a specific precedence order. The order from highest to lowest precedence is:
+====================================================================================================================
+
+Extra-vars (-e on the command line): Command-line variables take the highest precedence.
+
+Playbook variables: Variables defined within the playbook.
+
+Inventory variables: Variables set in the inventory.
+
+Debug & vars & register in Ansible module::
+==========================================
+
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html
+
+---
+- name: Echo message on localhost
+
+  hosts: localhost
+
+   connection: local
+
+   gather_facts: no
+
+   vars:
+
+   message: "Hello from Ansible playbook on localhost!"
+
+  tasks:
+    
+    - name: Echo message and connection type
+
+      ansible.builtin.shell: "echo '{{ message }}' ; echo 'Connection type: {{ ansible_connection }}'"
+
+      register: echo_output
+
+    
+    - name: Display output
+
+      debug:
+
+      msg: "{{ echo_output.stdout_lines }}"
+
+
+>ansible-playbook -i hosts -vvv variable.yaml  --------> verbose logs purpose ,please run this command
+
+
+![image](https://github.com/user-attachments/assets/7d18a6e5-a53b-436b-bf26-dbe1db0e89af)
+
+
+Registry Module::
+-----------------
+Registry is a module used to results can be stored in a variable
+Stored ouptput of a task or script
+I want execute a command and results can be stored in a variable is called registry
+
+Handlers::
+===========
+Sometimes you want a task to run only when a change is made on a machine. For example, you may want to restart a service if a task updates the configuration of that service, but not if the configuration is unchanged. Ansible uses handlers to address this use case. Handlers are tasks that only run when notified
+
+---
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure apache is at the latest version
+      ansible.builtin.yum:
+        name: httpd
+        state: latest
+  handlers:
+    - name: Restart apache
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
+
+
+Working Playbook, please try to execute and understand::
+========================================================
+
+
+- hosts: DBservers
+  become: yes
+  tasks:
+  - name: install apache2
+    apt:
+      name: apache2
+      state: present
+      update_cache: yes
+  - debug:
+      msg: "install apache2 successfully in ubuntu machines"
+  - name: install my sql software
+    apt:
+      name: mysql-server
+      state: present
+  - debug:
+      msg: "install mysql-server successfully in ubuntu machines"
+
+  - name: install php
+    apt:
+      name: php
+      state: present
+  - debug:
+      msg: "install php successfully in ubuntu machines"
+
+  - name: install libapache2-mod-php
+    apt:
+      name: libapache2-mod-php
+      state: present
+  - debug:
+      msg: "install mod php successfully in ubuntu machines"
+
+  - name: install php-mcrypt
+    apt:
+      name: php-mcrypt
+      state: present
+  - debug:
+      msg: "install mcrypt successfully in ubuntu machines"
+
+  - name: install php-mysql
+    apt:
+      name: php-mysql
+      state: present
+  - debug:
+      msg: "install mysql successfully in ubuntu machines"
+  handlers:
+  - name: restart apache2
+    service:
+      name: apache2
+      enabled : yes
+      state: stopped
+  handlers:
+  - name: start apache2
+    service:
+      name: apache2
+      enabled : yes
+      state: started
+
+  - name: install php-cli
+    apt:
+      name: php-cli
+      state: present
+  - debug:
+      msg: "install php-cli successfully in ubuntu machines"
+
+  - name: restart apache2
+    service:
+      name: apache2
+      enabled : yes
+      state: restarted
+
+  - name: Copy file with src and destination
+    copy:
+      src: info.php
+      dest: /var/www/html/info.php
