@@ -3981,6 +3981,14 @@ define variables in 3 places
 3.	Command line level –highest level priority
 
 
+defined variable in Ansible::
+ 
+ 1.commandline level  ---highest priorty 
+ 2.playbook level    ----2nd highest priority
+ 3.inventory level -- low priorty
+   a.host level variabel
+   b. group level
+
 Inventory variables: These are defined in the inventory file (or dynamic inventory) for specific hosts or groups.
 
 [webservers]
