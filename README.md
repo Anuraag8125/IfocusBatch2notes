@@ -4487,5 +4487,8 @@ http://54.218.133.244:8080/onlinebookstore/
 Integrated Ansible & Tomcat & S3::
 =====================================
 
+
+
+
 ![image](https://github.com/user-attachments/assets/77ca7c84-e2e9-41c3-a6df-e4cbe91a3e03)
 
