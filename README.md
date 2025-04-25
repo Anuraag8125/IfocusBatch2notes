@@ -5002,3 +5002,30 @@ Once you’ve written your Dockerfile, you can build and run it using Docker com
    ```
 
 The Dockerfile streamlines the process of creating consistent and reproducible environments, making it easier to deploy applications across different systems.
+
+
+Example 2 For Dockerfile::
+
+please follow the below link to execute the dockerfile for jenkins
+
+https://www.geeksforgeeks.org/what-is-dockerfile/
+
+FROM openjdk:11-jdk
+MAINTAINER GFG author
+LABEL env=production
+ENV apparea /data/app
+RUN mkdir -p $apparea
+ADD https://get.jenkins.io/war/2.397/jenkins.war $apparea
+WORKDIR $apparea
+EXPOSE 8080
+CMD ["java","-jar","jenkins.war"]
+
+>docker build -t jenkins:1 .
+>docker build -t jenkins:2 .
+
+>docker run -d -p 8080:8080 <Imagetag/ID>
+>docker run -d -p 8081:8080 <Imagetag/ID>
+
+
+Expected :: jenkins is up & running inside the containers 
+
