@@ -5029,3 +5029,104 @@ CMD ["java","-jar","jenkins.war"]
 
 Expected :: jenkins is up & running inside the containers 
 
+
+
+25/04/2025::
+===============
+
+
+Example2 Dockerfile::
+===================
+
+https://github.com/ifocus7358/spring-ms/blob/master/Dockerfile
+
+Please clone this project in ubuntu machines
+
+root@ip-172-31-20-86:~# git clone https://github.com/ifocus7358/spring-ms.git
+
+![image](https://github.com/user-attachments/assets/188db6f2-c5b5-419d-8824-0b9b9c6728ee)
+
+root@ip-172-31-20-86:~# cd spring-ms/
+root@ip-172-31-20-86:~/spring-ms# ls
+Dockerfile  azure-pipeline.yml  azure-pipelines.yml  deploy.yaml  pom.xml  src
+root@ip-172-31-20-86:~/spring-ms#
+
+Build Image::
+============
+root@ip-172-31-20-86:~/spring-ms# docker image build -t springmyapp .
+[+] Building 0.4s (12/12) FINISHED                                                                                      docker:default
+ => [internal] load build definition from Dockerfile                                                                              0.0s
+ => => transferring dockerfile: 256B                                                                                              0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)                                                    0.0s
+ => [internal] load metadata for registry.access.redhat.com/ubi8/openjdk-11:latest                                                0.3s
+ => [internal] load metadata for docker.io/library/maven:3.6.3-jdk-11                                                             0.1s
+ => [auth] library/maven:pull token for registry-1.docker.io                                                                      0.0s
+ => [internal] load .dockerignore                                                                                                 0.0s
+ => => transferring context: 2B                                                                                                   0.0s
+ => [internal] load build context                                                                                                 0.0s
+ => => transferring context: 2.76kB                                                                                               0.0s
+ => [stage-1 1/2] FROM registry.access.redhat.com/ubi8/openjdk-11:latest@sha256:28b35eea470174a39befd8eb9250a3276b79a4f6e7dac787  0.0s
+ => [stage1 1/3] FROM docker.io/library/maven:3.6.3-jdk-11@sha256:1d29ccf46ef2a5e64f7de3d79a63f9bcffb4dc56be0ae3daed5ca5542b38aa  0.0s
+ => CACHED [stage1 2/3] COPY . .                                                                                                  0.0s
+ => CACHED [stage1 3/3] RUN mvn clean package                                                                                     0.0s
+ => CACHED [stage-1 2/2] COPY --from=stage1 target/*.jar app.jar                                                                  0.0s
+ => exporting to image                                                                                                            0.0s
+ => => exporting layers                                                                                                           0.0s
+ => => writing image sha256:bdbbb4bbe700af425032e6a27d6909e2906677fbffce9b833d596e3f37082479                                      0.0s
+ => => naming to docker.io/library/springmyapp                                                                                    0.0s
+
+ 1 warning found (use docker --debug to expand):
+ - FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
+root@ip-172-31-20-86:~/spring-ms#
+
+![image](https://github.com/user-attachments/assets/44c6ba1e-7322-436d-af30-4606cb484283)
+
+create container::
+===============
+
+root@ip-172-31-20-86:~/spring-ms# docker images
+REPOSITORY                  TAG       IMAGE ID       CREATED        SIZE
+spring                      latest    bdbbb4bbe700   9 hours ago    410MB
+springmyapp                 latest    bdbbb4bbe700   9 hours ago    410MB
+srinu7358/spring-03042025   latest    bdbbb4bbe700   9 hours ago    410MB
+allinstructions             latest    c2993e54968d   9 hours ago    1.17GB
+<none>                      <none>    805cbec82269   9 hours ago    1.17GB
+testmyownimage              latest    621f509fde33   10 hours ago   1.1GB
+ifocus                      latest    381bfb89fb02   10 hours ago   1.1GB
+srinu7358/ifocus-myapp      latest    381bfb89fb02   10 hours ago   1.1GB
+root@ip-172-31-20-86:~/spring-ms# docker run -d -p 8081:8081 springmyapp:latest
+17ac78f05de4abdca3d46972e63f29c897a011d732ca3e76e7c1ef2158af10b1
+root@ip-172-31-20-86:~/spring-ms#
+
+![image](https://github.com/user-attachments/assets/d0132046-021c-46b7-9259-75382dc155fb)
+
+![image](https://github.com/user-attachments/assets/b9064110-355c-4619-adf5-fb9fac875b6f)
+
+Image formate::
+============
+
+<registoryname>/repositoryname:<imagetag>
+Docker.io            username/reponame  ::latest
+
+[docker.io/srinu7358/ifocus-myapp] :latest  ---->image formate
+
+docker.io -----registry name  ----docekr hub
+
+srinu7358 ----repository username
+
+ifocus-myapp ---image name
+
+>docker container run –d –p 8080:8080 springmyapp:1.0
+-d --> detached mode
+-p  -->mappimg a port
+8080: host port
+8080: container port
+springmyapp:: image name
+1.0:: tag name
+
+Expected 
+http://54.162.108.91:8080/
+
+![image](https://github.com/user-attachments/assets/42057a55-11db-4b34-908e-61b08ee18f0f)
+
+
