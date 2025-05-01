@@ -5344,8 +5344,11 @@ Docker SWARM Overview::
 - good for POC or learning purpose
 - not production grade
 
-- Kubernetes Overview::
-=========
+
+
+
+Kubernetes Overview::
+==================
 
 Kubernetes (often abbreviated as K8s) is an open-source container orchestration platform designed to automate the deployment, scaling, and management of containerized applications. Originally developed by Google.
 
@@ -5371,15 +5374,21 @@ free and opensource container orchestration platform developed by Google along w
 
 
 1.Container Orchestration: Kubernetes helps you manage multiple containers, ensuring that they run efficiently and reliably across many servers.
+
 2.Scaling: Kubernetes can automatically scale your applications up or down based on demand, making it easier to handle varying workloads.
+
 3.Load Balancing: It can distribute network traffic to different containers, ensuring that applications remain responsive even under heavy loads.
+
 4.Self-Healing: If a container crashes or stops working, Kubernetes can automatically restart or replace it, ensuring the application stays available.
+
 5.Automated Deployment and Rollback: Kubernetes can automate the process of deploying new versions of an application, and if something goes wrong, it can roll back to a previous version.
+
 6.Storage Management: Kubernetes can automatically mount the storage resources you need for your applications, making it easier to manage persistent data.
 
 In short, Kubernetes is designed to make it easier to manage applications at scale in a way that is highly automated, reliable, and efficient. It’s widely used in DevOps platform
 
 Cluster:: collection of nodes with a single responsibility
+
 All the nodes in that cluster do same process, same type of work can will do collection of nodes in cluster
 
 Cluster::
