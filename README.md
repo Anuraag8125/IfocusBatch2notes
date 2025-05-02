@@ -5425,13 +5425,20 @@ A distributed key-value store used to store all cluster data, including the stat
 Worker Nodes (Minions):
 ==================
 o	The Worker Nodes are responsible for running the actual application workloads. These nodes host the pods, which are the smallest deployable units in Kubernetes. A worker node typically runs:
+
+
 1.Kubelet: An agent that ensures the containers in the pods are running and healthy.
+
 2.Kube Proxy: A network proxy that maintains network rules for pod communication.
+
 3.Container Runtime: The software responsible for running containers (e.g., Docker, containerd).
+
 4.Pods::
+
 A pod is the smallest unit of execution in Kubernetes and can contain one or more containers that share resources such as networking and storage. Pods are always deployed in a Kubernetes cluster and are managed by the control plane.
 
 5.Services:
+
 A service in Kubernetes is a way to expose an application running in a pod to other pods or external users. It ensures that network communication between pods is reliable, even as pods are dynamically created or destroyed.
 
 NOTE:::In kubernetes master is not created containers, this is recommended approaches we can create containers in master also but not proposed
@@ -5444,10 +5451,13 @@ Basically, kubernetes is used for to maintain containers
 
 ![image](https://github.com/user-attachments/assets/16f6dbce-164f-4b56-8922-0614eb8a779d)
 
+
 Above picture directly using pods without using services and if ipaddress no longer available our application is not worked. pods communication throw ip address right, so it has a problem to resolved the this problem services is come to the picture.
 
 Services –logical entity and maintain ip address
 
+
 Below picture is running the pods with Service
+
 
 ![image](https://github.com/user-attachments/assets/f045db00-2883-4407-ac5d-0dd83e3129c2)
