@@ -5461,3 +5461,464 @@ Below picture is running the pods with Service
 
 
 ![image](https://github.com/user-attachments/assets/f045db00-2883-4407-ac5d-0dd83e3129c2)
+
+
+
+
+03/05/2025::
+============
+
+docker and kubernetes::
+====================
+
+Install Kubernetes Cluster on Ubuntu 24.04::
+=======================================
+
+for this i have to take 3 ubuntu machines 
+
+1. Master Node
+2. Worker NOde1
+3. Worker Node2
+
+
+![image](https://github.com/user-attachments/assets/be47a2d8-5467-49a1-95b4-c920771c68c0)
+
+PLease follow The step-by-step guide on this page will explain you how to install Kubernetes cluster on Ubuntu 24.04 using Kubeadm command step 
+by step.
+
+Below link have all the steps to setup the kubernets cluster with worker nodes machines just below execute the all the commands 
+
+https://www.linuxtechi.com/install-kubernetes-on-ubuntu-22-04/
+
+
+Lab Practce ::
+===============
+
+
+root@ip-172-31-44-79:~# sudo hostnamectl set-hostname "k8smaster"
+root@ip-172-31-44-79:~# exec bash
+root@k8smaster:~# sudo vi /etc/hosts
+root@k8smaster:~#
+root@k8smaster:~# sudo swapoff -a
+root@k8smaster:~# sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+root@k8smaster:~# sudo tee /etc/modules-load.d/containerd.conf <<EOF
+overlay
+br_netfilter
+EOF
+overlay
+br_netfilter
+root@k8smaster:~# sudo modprobe overlay
+root@k8smaster:~# sudo modprobe br_netfilter
+root@k8smaster:~# sudo tee /etc/sysctl.d/kubernetes.conf <<EOT
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOT
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+root@k8smaster:~# sudo sysctl --system
+* Applying /usr/lib/sysctl.d/10-apparmor.conf ...
+* Applying /etc/sysctl.d/10-bufferbloat.conf ...
+* Applying /etc/sysctl.d/10-console-messages.conf ...
+* Applying /etc/sysctl.d/10-ipv6-privacy.conf ...
+* Applying /etc/sysctl.d/10-kernel-hardening.conf ...
+* Applying /etc/sysctl.d/10-magic-sysrq.conf ...
+* Applying /etc/sysctl.d/10-map-count.conf ...
+* Applying /etc/sysctl.d/10-network-security.conf ...
+* Applying /etc/sysctl.d/10-ptrace.conf ...
+* Applying /etc/sysctl.d/10-zeropage.conf ...
+* Applying /etc/sysctl.d/50-cloudimg-settings.conf ...
+* Applying /usr/lib/sysctl.d/50-pid-max.conf ...
+* Applying /etc/sysctl.d/99-cloudimg-ipv6.conf ...
+* Applying /usr/lib/sysctl.d/99-protect-links.conf ...
+* Applying /etc/sysctl.d/99-sysctl.conf ...
+* Applying /etc/sysctl.d/kubernetes.conf ...
+* Applying /etc/sysctl.conf ...
+kernel.apparmor_restrict_unprivileged_userns = 1
+net.core.default_qdisc = fq_codel
+kernel.printk = 4 4 1 7
+net.ipv6.conf.all.use_tempaddr = 2
+net.ipv6.conf.default.use_tempaddr = 2
+kernel.kptr_restrict = 1
+kernel.sysrq = 176
+vm.max_map_count = 1048576
+net.ipv4.conf.default.rp_filter = 2
+net.ipv4.conf.all.rp_filter = 2
+kernel.yama.ptrace_scope = 1
+vm.mmap_min_addr = 65536
+net.ipv4.neigh.default.gc_thresh2 = 15360
+net.ipv4.neigh.default.gc_thresh3 = 16384
+net.netfilter.nf_conntrack_max = 1048576
+kernel.pid_max = 4194304
+net.ipv6.conf.all.use_tempaddr = 0
+net.ipv6.conf.default.use_tempaddr = 0
+fs.protected_fifos = 1
+fs.protected_hardlinks = 1
+fs.protected_regular = 2
+fs.protected_symlinks = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+root@k8smaster:~# sudo apt install -y curl gnupg2 software-properties-common apt-transport-https ca-certificates
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+curl is already the newest version (8.5.0-2ubuntu10.6).
+software-properties-common is already the newest version (0.99.49.2).
+software-properties-common set to manually installed.
+apt-transport-https is already the newest version (2.7.14build2).
+ca-certificates is already the newest version (20240203).
+The following additional packages will be installed:
+  dirmngr gnupg gnupg-l10n gnupg-utils gpg gpg-agent gpg-wks-client gpgconf gpgsm gpgv keyboxd
+Suggested packages:
+  pinentry-gnome3 tor parcimonie xloadimage gpg-wks-server scdaemon
+The following NEW packages will be installed:
+  gnupg2
+The following packages will be upgraded:
+  dirmngr gnupg gnupg-l10n gnupg-utils gpg gpg-agent gpg-wks-client gpgconf gpgsm gpgv keyboxd
+11 upgraded, 1 newly installed, 0 to remove and 69 not upgraded.
+Need to get 2296 kB of archives.
+After this operation, 32.8 kB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpg-wks-client amd64 2.4.4-2ubuntu17.2 [70.9 kB]
+Get:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 dirmngr amd64 2.4.4-2ubuntu17.2 [323 kB]
+Get:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gnupg-utils amd64 2.4.4-2ubuntu17.2 [109 kB]
+Get:4 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpgsm amd64 2.4.4-2ubuntu17.2 [232 kB]
+Get:5 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpg-agent amd64 2.4.4-2ubuntu17.2 [227 kB]
+Get:6 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpg amd64 2.4.4-2ubuntu17.2 [565 kB]
+Get:7 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpgconf amd64 2.4.4-2ubuntu17.2 [103 kB]
+Get:8 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gnupg all 2.4.4-2ubuntu17.2 [359 kB]
+Get:9 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 keyboxd amd64 2.4.4-2ubuntu17.2 [78.3 kB]
+Get:10 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gpgv amd64 2.4.4-2ubuntu17.2 [158 kB]
+Get:11 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/main amd64 gnupg-l10n all 2.4.4-2ubuntu17.2 [66.1 kB]
+Get:12 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates/universe amd64 gnupg2 all 2.4.4-2ubuntu17.2 [4750 B]
+Fetched 2296 kB in 0s (37.4 MB/s)
+(Reading database ... 70564 files and directories currently installed.)
+Preparing to unpack .../0-gpg-wks-client_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpg-wks-client (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../1-dirmngr_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking dirmngr (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../2-gnupg-utils_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gnupg-utils (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../3-gpgsm_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpgsm (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../4-gpg-agent_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpg-agent (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../5-gpg_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpg (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../6-gpgconf_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpgconf (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../7-gnupg_2.4.4-2ubuntu17.2_all.deb ...
+Unpacking gnupg (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../8-keyboxd_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking keyboxd (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Preparing to unpack .../9-gpgv_2.4.4-2ubuntu17.2_amd64.deb ...
+Unpacking gpgv (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Setting up gpgv (2.4.4-2ubuntu17.2) ...
+(Reading database ... 70564 files and directories currently installed.)
+Preparing to unpack .../gnupg-l10n_2.4.4-2ubuntu17.2_all.deb ...
+Unpacking gnupg-l10n (2.4.4-2ubuntu17.2) over (2.4.4-2ubuntu17) ...
+Selecting previously unselected package gnupg2.
+Preparing to unpack .../gnupg2_2.4.4-2ubuntu17.2_all.deb ...
+Unpacking gnupg2 (2.4.4-2ubuntu17.2) ...
+Setting up gnupg-l10n (2.4.4-2ubuntu17.2) ...
+Setting up gpgconf (2.4.4-2ubuntu17.2) ...
+Setting up gpg (2.4.4-2ubuntu17.2) ...
+Setting up gnupg-utils (2.4.4-2ubuntu17.2) ...
+Setting up gpg-agent (2.4.4-2ubuntu17.2) ...
+Setting up gpgsm (2.4.4-2ubuntu17.2) ...
+Setting up dirmngr (2.4.4-2ubuntu17.2) ...
+Setting up keyboxd (2.4.4-2ubuntu17.2) ...
+Setting up gnupg (2.4.4-2ubuntu17.2) ...
+Setting up gnupg2 (2.4.4-2ubuntu17.2) ...
+Setting up gpg-wks-client (2.4.4-2ubuntu17.2) ...
+Processing triggers for install-info (7.1-3build2) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Scanning processes...
+Scanning linux images...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@k8smaster:~# sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+root@k8smaster:~# sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+Repository: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu noble stable'
+Description:
+Archive for codename: noble components: stable
+More info: https://download.docker.com/linux/ubuntu
+Adding repository.
+Press [ENTER] to continue or Ctrl-c to cancel.
+Adding deb entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-noble.list
+Adding disabled deb-src entry to /etc/apt/sources.list.d/archive_uri-https_download_docker_com_linux_ubuntu-noble.list
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:4 https://download.docker.com/linux/ubuntu noble InRelease [48.8 kB]
+Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease
+Get:6 https://download.docker.com/linux/ubuntu noble/stable amd64 Packages [24.0 kB]
+Fetched 72.8 kB in 0s (170 kB/s)
+Reading package lists... Done
+root@k8smaster:~# sudo apt update
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://download.docker.com/linux/ubuntu noble InRelease
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+69 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@k8smaster:~# sudo apt install -y containerd.io
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following NEW packages will be installed:
+  containerd.io
+0 upgraded, 1 newly installed, 0 to remove and 69 not upgraded.
+Need to get 30.5 MB of archives.
+After this operation, 125 MB of additional disk space will be used.
+Get:1 https://download.docker.com/linux/ubuntu noble/stable amd64 containerd.io amd64 1.7.27-1 [30.5 MB]
+Fetched 30.5 MB in 0s (67.2 MB/s)
+Selecting previously unselected package containerd.io.
+(Reading database ... 70570 files and directories currently installed.)
+Preparing to unpack .../containerd.io_1.7.27-1_amd64.deb ...
+Unpacking containerd.io (1.7.27-1) ...
+Setting up containerd.io (1.7.27-1) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/containerd.service → /usr/lib/systemd/system/containerd.service.
+Processing triggers for man-db (2.12.0-4build2) ...
+Scanning processes...
+Scanning linux images...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@k8smaster:~# containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+root@k8smaster:~# sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+root@k8smaster:~# sudo systemctl restart containerd
+root@k8smaster:~# sudo systemctl enable containerd
+root@k8smaster:~# docker --version
+Command 'docker' not found, but can be installed with:
+snap install docker         # version 27.5.1, or
+apt  install docker.io      # version 26.1.3-0ubuntu1~24.04.1
+apt  install podman-docker  # version 4.9.3+ds1-1ubuntu0.2
+See 'snap info docker' for additional versions.
+root@k8smaster:~# curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+root@k8smaster:~# echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
+root@k8smaster:~#
+root@k8smaster:~# Read from remote host ec2-54-166-228-72.compute-1.amazonaws.com: Connection reset by peer
+Connection to ec2-54-166-228-72.compute-1.amazonaws.com closed.
+client_loop: send disconnect: Connection reset by peer
+
+HP@DESKTOP-E518Q66 MINGW64 ~/Downloads
+$ ssh -i "dockerAndKUbernetes.pem" ubuntu@ec2-54-166-228-72.compute-1.amazonaws.com
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-1024-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Fri May  2 04:17:06 UTC 2025
+
+  System load:  0.0               Processes:             118
+  Usage of /:   30.5% of 6.71GB   Users logged in:       1
+  Memory usage: 3%                IPv4 address for enX0: 172.31.44.79
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+69 updates can be applied immediately.
+27 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Fri May  2 03:43:59 2025 from 49.206.45.177
+ubuntu@k8smaster:~$ sud -i
+Command 'sud' not found, but there are 15 similar ones.
+ubuntu@k8smaster:~$ sudo -i
+root@k8smaster:~# sudo apt update
+Hit:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:3 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble-backports InRelease
+Hit:4 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 https://download.docker.com/linux/ubuntu noble InRelease
+Get:6 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  InRelease [1192 B]
+Get:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  Packages [21.3 kB]
+Fetched 22.5 kB in 1s (43.2 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+69 packages can be upgraded. Run 'apt list --upgradable' to see them.
+root@k8smaster:~# sudo apt install -y kubelet kubeadm kubectl
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  conntrack cri-tools kubernetes-cni
+The following NEW packages will be installed:
+  conntrack cri-tools kubeadm kubectl kubelet kubernetes-cni
+0 upgraded, 6 newly installed, 0 to remove and 69 not upgraded.
+Need to get 87.4 MB of archives.
+After this operation, 335 MB of additional disk space will be used.
+Get:1 http://us-east-1.ec2.archive.ubuntu.com/ubuntu noble/main amd64 conntrack amd64 1:1.4.8-1ubuntu1 [37.9 kB]
+Get:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  cri-tools 1.28.0-1.1 [19.6 MB]
+Get:3 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubernetes-cni 1.2.0-2.1 [27.6 MB]
+Get:4 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubelet 1.28.15-1.1 [19.6 MB]
+Get:5 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubectl 1.28.15-1.1 [10.4 MB]
+Get:6 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubeadm 1.28.15-1.1 [10.1 MB]
+Fetched 87.4 MB in 1s (90.9 MB/s)
+Selecting previously unselected package conntrack.
+(Reading database ... 70586 files and directories currently installed.)
+Preparing to unpack .../0-conntrack_1%3a1.4.8-1ubuntu1_amd64.deb ...
+Unpacking conntrack (1:1.4.8-1ubuntu1) ...
+Selecting previously unselected package cri-tools.
+Preparing to unpack .../1-cri-tools_1.28.0-1.1_amd64.deb ...
+Unpacking cri-tools (1.28.0-1.1) ...
+Selecting previously unselected package kubernetes-cni.
+Preparing to unpack .../2-kubernetes-cni_1.2.0-2.1_amd64.deb ...
+Unpacking kubernetes-cni (1.2.0-2.1) ...
+Selecting previously unselected package kubelet.
+Preparing to unpack .../3-kubelet_1.28.15-1.1_amd64.deb ...
+Unpacking kubelet (1.28.15-1.1) ...
+Selecting previously unselected package kubectl.
+Preparing to unpack .../4-kubectl_1.28.15-1.1_amd64.deb ...
+Unpacking kubectl (1.28.15-1.1) ...
+Selecting previously unselected package kubeadm.
+Preparing to unpack .../5-kubeadm_1.28.15-1.1_amd64.deb ...
+Unpacking kubeadm (1.28.15-1.1) ...
+Setting up conntrack (1:1.4.8-1ubuntu1) ...
+Setting up kubectl (1.28.15-1.1) ...
+Setting up cri-tools (1.28.0-1.1) ...
+Setting up kubernetes-cni (1.2.0-2.1) ...
+Setting up kubelet (1.28.15-1.1) ...
+Setting up kubeadm (1.28.15-1.1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Scanning processes...
+Scanning linux images...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+root@k8smaster:~# sudo apt-mark hold kubelet kubeadm kubectl
+kubelet set on hold.
+kubeadm set on hold.
+kubectl set on hold.
+root@k8smaster:~# sudo kubeadm init --control-plane-endpoint=k8smaster
+I0502 04:23:24.943351    4347 version.go:256] remote version is much newer: v1.33.0; falling back to: stable-1.28
+[init] Using Kubernetes version: v1.28.15
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+W0502 04:23:35.198085    4347 checks.go:835] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.k8s.io/pause:3.9" as the CRI sandbox image.
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [k8smaster kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 172.31.44.79]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [k8smaster localhost] and IPs [172.31.44.79 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [k8smaster localhost] and IPs [172.31.44.79 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[kubelet-check] Initial timeout of 40s passed.
+[apiclient] All control plane components are healthy after 126.567127 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node k8smaster as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node k8smaster as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+[bootstrap-token] Using token: b1yj52.f057prjwtq0pf18c
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes by copying certificate authorities
+and service account keys on each node and then running the following as root:
+
+  kubeadm join k8smaster:6443 --token b1yj52.f057prjwtq0pf18c \
+        --discovery-token-ca-cert-hash sha256:fd928d117255c54ccc3f025e19e61a4c0b4672d55f1caabaa65ead804190a010 \
+        --control-plane
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join k8smaster:6443 --token b1yj52.f057prjwtq0pf18c \
+        --discovery-token-ca-cert-hash sha256:fd928d117255c54ccc3f025e19e61a4c0b4672d55f1caabaa65ead804190a010
+root@k8smaster:~#
+root@k8smaster:~#
+root@k8smaster:~# kubectl get nodes
+E0502 04:30:39.095085    5211 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0502 04:30:39.095354    5211 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0502 04:30:39.096830    5211 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0502 04:30:39.097327    5211 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+E0502 04:30:39.098702    5211 memcache.go:265] couldn't get current server API group list: Get "http://localhost:8080/api?timeout=32s": dial tcp 127.0.0.1:8080: connect: connection refused
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+root@k8smaster:~# export KUBECONFIG=/etc/kubernetes/admin.conf
+root@k8smaster:~# kubectl get nodes
+NAME         STATUS     ROLES           AGE     VERSION
+k8smaster    NotReady   control-plane   6m47s   v1.28.15
+k8sworker1   NotReady   <none>          3m49s   v1.28.15
+k8sworker2   NotReady   <none>          2m55s   v1.28.15
