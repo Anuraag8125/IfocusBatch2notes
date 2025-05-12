@@ -6737,4 +6737,284 @@ it makes REST call to API Server
 https://github.com/wicksy/openshift-demo-app/tree/master
 https://github.com/wicksy/openshift-demo-app
 
-      
+
+
+
+ 12/05/2025::
+ ================
+
+
+
+ Login command line::
+
+OC ----> Openshift Client
+
+click Copy login command at top right corner
+
+![image](https://github.com/user-attachments/assets/4e1735af-4114-4d8d-8c01-526127c36ceb)
+
+![image](https://github.com/user-attachments/assets/6f4cfb80-19ca-4a3b-b4be-405c6e69f812)
+
+copy Login in with this Token
+
+![image](https://github.com/user-attachments/assets/11a7edbb-f3aa-4e79-8457-90dedfb0af06)
+
+![image](https://github.com/user-attachments/assets/3d18ae45-f2d6-43ca-b8e5-95d5b2d23a64)
+
+Getting oc command is not found
+
+So we need to download the oc from google
+
+1 download oc.exe https://developers.redhat.com/openshift/command-line-tools
+2 navigate to environment variables -> system variables -> new
+3 add here: /path/to/the/oc.exe
+
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/cli_tools/openshift-cli-oc#cli-installing-cli_cli-developer-commands
+
+https://access.redhat.com/downloads/content/290/ver=4.18/rhel---9/4.18.7/x86_64/product-software
+
+OC download LInk::
+=====================
+
+OC
+is a client tool used to create and manage Openshift resources in OpenShift
+it makes REST call to API Server
+
+https://access.redhat.com/downloads/content/290/ver=4.18/rhel---9/4.18.8/x86_64/product-software
+
+Download Windows client
+
+![image](https://github.com/user-attachments/assets/14d36459-8cf3-4ba1-8cb5-361f34730aa0)
+
+Download the oc for window and extracted all the files
+
+![image](https://github.com/user-attachments/assets/85d30663-3fc1-4a7a-878a-3f316b74ce7c)
+
+Open from command line
+
+![image](https://github.com/user-attachments/assets/999801e8-1078-474c-9ab1-27e4bb3e8a21)
+
+
+![image](https://github.com/user-attachments/assets/3122d471-9a89-467c-b986-d9229f95db9f)
+
+Switch project
+>oc project <projectname>
+>oc project srinu942-dev
+
+![image](https://github.com/user-attachments/assets/31f81eac-41a4-403b-8de3-3edf5089e4f0)
+
+OpenShift resources
+•	Deployment (K8s resource)
+•	ReplicaSet (K8s resource)
+•	Pod (K8s resource)
+•	Job (K8s resource)
+•	DaemonSet (K8s resource)
+•	StatefulSet (K8s resource)
+•	Build ( OpenShift resource - Custom Resource added by OpenShift )
+•	ImageStream ( OpenShift resource - Custom Resource added by OpenShift )
+•	DeploymentConfig ( OpenShift resource - Custom Resource added by OpenShift )
+
+Deployment command looks like this
+>oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
+
+![image](https://github.com/user-attachments/assets/dbc5a3bd-aa15-4346-b753-9621d8dd3e81)
+
+Deployment::
+=================
+This is a JSON/YAML definition which is stored in etcd database
+The deployment is managed by Deployment Controller
+when we applications, they are deployed as Deployment with Kubernetes/OpenShift
+Deployment Controller creates ReplicaSet, which is then managed by ReplicaSet Controller
+Deployment has one or more ReplicaSet(s)
+
+ReplicaSet::
+=============
+This is a JSON/YAML definition which is stored in etcd database
+The ReplicaSet is managed by ReplicaSet Controller
+ReplicaSet capture details like
+How many Pod instances are desired?
+ReplicaSet Controller reads the ReplicaSet definition and learns the desired Pod instance count
+ReplicaSet Controller creates so many Pod definition as indicated in the ReplicaSet
+ReplicaSet Controller ensures the desired Pod count matches with the actual Pod count, whenever a Pod crashes, it is the responsibility of ReplicaSet Controller to ensure the desired and actual Pods are equal
+ReplicaSet has one or more Pods
+
+Pod::
+====
+is a collection of one or more Containers
+IP address is assigned on the Pod level not on the Container level
+If two containers are in the same Pod, there will be sharing IP Address of the Pod
+within container, application are deployment ( tomcat,mysql, nginx these are applications )
+recommended best practice,only one application should be there in a Pod
+Pods are scheduled by Scheduler onto some Node
+every Pod has a Network Stack and Network Interface Card (NIC)
+
+Kubelet::
+===========
+is a daemon service that interacts with the Container Runtime on the current node/server where kubelet is running
+kubelet downloads the required container image and creates the Pod containers
+kubelet frequently reports the status of Pod container status to the API server
+kubelet also monitors the health of POds running on the node and ensures they are healthy
+kubelet will there on every node ( master and worker nodes )
+
+kube-proxy::
+=============
+is a Pod that runs one instance per node (both master and worker nodes)
+provides load-balancing a group of similar Pods
+Sample Demo Project fro Openshift
+
+Kubectl::
+========
+is a client tool used to create and manage deployments and services in Kubernetes
+it also works in OpenShift
+it make REST call to API Server
+
+OC::
+===
+is a client tool used to create and manage Openshift resources in OpenShift
+it makes REST call to API Server
+
+https://github.com/wicksy/openshift-demo-app/tree/master
+https://github.com/wicksy/openshift-demo-app
+
+
+LAB::
+
+Microsoft Windows [Version 10.0.19045.5737]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc login --token=sha256~_Ovx_YgPqkXz8SdXBZr9_zm4Yn-1wZfETn7DMKQsKZI --server=https://api.rm1.0a51.p1.openshiftapps.com:6443
+Logged into "https://api.rm1.0a51.p1.openshiftapps.com:6443" as "ifocus942" using the token provided.
+
+You have access to the following projects and can switch between them with 'oc project <projectname>':
+
+  * ifocus942-dev
+    openshift-virtualization-os-images
+
+Using project "ifocus942-dev".
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc projects
+You have access to the following projects and can switch between them with ' project <projectname>':
+
+  * ifocus942-dev
+    openshift-virtualization-os-images
+
+Using project "ifocus942-dev" on server "https://api.rm1.0a51.p1.openshiftapps.com:6443".
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc project ifocus942-dev
+Already on project "ifocus942-dev" on server "https://api.rm1.0a51.p1.openshiftapps.com:6443".
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get pods
+NAME                READY   STATUS      RESTARTS   AGE
+nodejs-ex-1-build   0/1     Completed   0          47m
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc delete pods
+error: resource(s) were provided, but no name was specified
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc delete pod nodejs-ex-1-build
+pod "nodejs-ex-1-build" deleted
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get pods
+No resources found in ifocus942-dev namespace.
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get deploy
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+spring-hello-1-00001-deployment         0/0     0            0           2d23h
+spring-petclinic-git-00001-deployment   0/0     0            0           2d23h
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get service
+NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP                                                  PORT(S)                                              AGE
+example                              ClusterIP      172.30.227.55    <none>                                                       80/TCP                                               2d23h
+jenkins                              ClusterIP      172.30.123.117   <none>                                                       80/TCP                                               2d23h
+jenkins-jnlp                         ClusterIP      172.30.163.61    <none>                                                       50000/TCP                                            2d23h
+modelmesh-serving                    ClusterIP      None             <none>                                                       8033/TCP,8008/TCP,8443/TCP,2112/TCP                  3d
+nginx                                ClusterIP      172.30.117.157   <none>                                                       8080/TCP,8443/TCP                                    4m50s
+nodejs-ex                            ClusterIP      172.30.197.26    <none>                                                       8080/TCP                                             48m
+spring-hello-1                       ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-hello-1-00001                 ClusterIP      172.30.231.196   <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-hello-1-00001-private         ClusterIP      172.30.196.109   <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
+spring-petclinic-git                 ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-petclinic-git-00001           ClusterIP      172.30.75.177    <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-petclinic-git-00001-private   ClusterIP      172.30.96.228    <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx:latest -p 80:80 --replicates=3
+error: unknown shorthand flag: 'p' in -p
+See 'oc create deployment --help' for usage.
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx:latest --replicates=3
+error: unknown flag: --replicates
+See 'oc create deployment --help' for usage.
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx:latest --replicas=3
+deployment.apps/nginx created
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc new-app https://github.com/sclorg/nodejs-ex.git
+--> Found image 6061449 (5 months old) in image stream "openshift/nodejs" under tag "20-ubi9" for "nodejs"
+
+    Node.js 20
+    ----------
+    Node.js 20 available as container is a base platform for building and running various Node.js 20 applications and frameworks. Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.
+
+    Tags: builder, nodejs, nodejs20
+
+    * The source repository appears to match: nodejs
+    * A source build using source code from https://github.com/sclorg/nodejs-ex.git will be created
+      * The resulting image will be pushed to image stream tag "nodejs-ex:latest"
+      * Use 'oc start-build' to trigger a new build
+
+--> Creating resources ...
+    error: buildconfigs.build.openshift.io "nodejs-ex" already exists
+    deployment.apps "nodejs-ex" created
+    error: services "nodejs-ex" already exists
+--> Failed
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get pods
+NAME                         READY   STATUS    RESTARTS   AGE
+nginx-85458687c9-5kzp7       1/1     Running   0          4m56s
+nginx-85458687c9-kvqk6       1/1     Running   0          4m56s
+nginx-85458687c9-z2c2j       1/1     Running   0          4m56s
+nodejs-ex-668bc6bbb6-r9sf6   1/1     Running   0          12s
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get services
+NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP                                                  PORT(S)                                              AGE
+example                              ClusterIP      172.30.227.55    <none>                                                       80/TCP                                               2d23h
+jenkins                              ClusterIP      172.30.123.117   <none>                                                       80/TCP                                               2d23h
+jenkins-jnlp                         ClusterIP      172.30.163.61    <none>                                                       50000/TCP                                            2d23h
+modelmesh-serving                    ClusterIP      None             <none>                                                       8033/TCP,8008/TCP,8443/TCP,2112/TCP                  3d
+nginx                                ClusterIP      172.30.117.157   <none>                                                       8080/TCP,8443/TCP                                    14m
+nodejs-ex                            ClusterIP      172.30.197.26    <none>                                                       8080/TCP                                             58m
+spring-hello-1                       ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-hello-1-00001                 ClusterIP      172.30.231.196   <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-hello-1-00001-private         ClusterIP      172.30.196.109   <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
+spring-petclinic-git                 ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-petclinic-git-00001           ClusterIP      172.30.75.177    <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-petclinic-git-00001-private   ClusterIP      172.30.96.228    <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc expose svc/nodejs-ex
+Error from server (AlreadyExists): routes.route.openshift.io "nodejs-ex" already exists
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc expose svc/nginx
+route.route.openshift.io/nginx exposed
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx --replicas=2
+deployment.apps/nginx created
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx --replicas=1
+error: failed to create deployment: deployments.apps "nginx" already exists
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc create deployment nginx --image=bitnami/nginx --replicas=1
+deployment.apps/nginx created
+
+C:\Users\HP\Downloads\openshift-client-windows-4.18.8>oc get svc
+NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP                                                  PORT(S)                                              AGE
+example                              ClusterIP      172.30.227.55    <none>                                                       80/TCP                                               3d
+jenkins                              ClusterIP      172.30.123.117   <none>                                                       80/TCP                                               2d23h
+jenkins-jnlp                         ClusterIP      172.30.163.61    <none>                                                       50000/TCP                                            2d23h
+modelmesh-serving                    ClusterIP      None             <none>                                                       8033/TCP,8008/TCP,8443/TCP,2112/TCP                  3d
+nginx                                ClusterIP      172.30.117.157   <none>                                                       8080/TCP,8443/TCP                                    18m
+nodejs-ex                            ClusterIP      172.30.197.26    <none>                                                       8080/TCP                                             62m
+spring-hello-1                       ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-hello-1-00001                 ClusterIP      172.30.231.196   <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-hello-1-00001-private         ClusterIP      172.30.196.109   <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
+spring-petclinic-git                 ExternalName   <none>           kourier-internal.knative-serving-ingress.svc.cluster.local   80/TCP                                               2d23h
+spring-petclinic-git-00001           ClusterIP      172.30.75.177    <none>                                                       80/TCP,443/TCP                                       2d23h
+spring-petclinic-git-00001-private   ClusterIP      172.30.96.228    <none>                                                       80/TCP,443/TCP,9090/TCP,9091/TCP,8022/TCP,8012/TCP   2d23h
